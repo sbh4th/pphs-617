@@ -1,0 +1,38 @@
+.title-slide {
+  background-image: url(mcgill-epi-logo.png);
+  background-size: 500px;
+  background-position: 50% 90%;
+}
+
+.blue { color: blue; }
+.black {color: #000000; }
+.red { color: red; }
+.orange { color: #f5bc6c; }
+.white { color: #ffffff; }
+.gray { color: #737373}
+
+/* define level 4 heading */
+h4 {
+  display: block;
+  font-size: 1.17em;
+  margin-top: -1em;
+  margin-bottom: 1.33em;
+  margin-left: 0;
+  margin-right: 0;
+  font-family: Source Sans Pro;
+  font-weight: normal;
+  color: #000000;
+}
+
+.remark-slide-number {
+  color: black;
+  opacity: 0.5;
+  font-size: 0.5em;
+}
+
+/* marker color
+li::marker {
+  color: red;
+  content: "►";
+}
+*/

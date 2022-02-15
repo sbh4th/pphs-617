@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title> Threats and Limitations of RCTs </title>
+    <meta charset="utf-8" />
+    <meta name="author" content="8 Feb 2022" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: middle, left, title-slide
+
+# <b> Threats and Limitations of RCTs </b>
+## <em> Impact evaluation: Effects of social policies on health </em>
+### 8 Feb 2022
+### Sam Harper &amp; Arijit Nandi
+
+---
+
+
+
+
+
+
+
+
+
+class: left, top
+
+# .black[**CONTENTS**]
+
+.left[
+## .black[**I. COMPLIANCE**]
+## .black[**II. ATTRITION**]
+## .black[**III. SPILLOVERS**]
+## .black[**IV. LIMITATIONS OF RCTs**]
+]
+
+---
+## Potential issues with randomized evaluations
+
+
+.right-column[
+
+### Exchangeability
+#### Treated and control groups are, in expectation, balanced on all measured and unmeasured covariates
+#### This is extraordinarily powerful for achieving high internal validity.
+
+### What could possible go wrong?
+#### Non-compliance, attrition, spillovers, blinding (esp. in clinical trials).
+]
+
+---
+class: left, bottom
+
+
+.left[
+## .black[**I. COMPLIANCE**]
+## .white[**space**]
+]
+
+
+
+---
+## Components of a program implementation
+.footnote[See &lt;a name=cite-Shadish2001aa&gt;&lt;/a&gt;[Shadish, Cook, and Campbell (2001)](#bib-Shadish2001aa) and &lt;a name=cite-Friedman2010yu&gt;&lt;/a&gt;[Friedman, Furberg, and DeMets (2010a)](#bib-Friedman2010yu)]
+
+.pull-left[
+Several places where things can go wrong:
+
+-   Inducing and measuring treatment delivery.
+
+  -   Use manuals/documentation.
+  -   Training implementers.
+  -   Simplifying treatments (to the extent possible).  
+]
+
+.pull-right[
+- Measuring and incentivizing treatment receipt.
+    -   Written notes/handouts to patients describing treatment.
+    -   Have recipients keep logs.
+    -   Physiological measurements (if possible).  
+
+-   Measuring and incentivizing adherence.
+    -   Interviews regarding treatment-related activities
+    -   Physical aids (e.g., reminder cards).
+]
+
+---
+## What do we mean by non-compliance?
+-   When people assigned to the treated group don't actually
+    receive/take the treatment.
+    -   Subjects may not show up for treatment (but not drop out of the
+        study).
+    -   Subjects can't get to where the treatment is delivered.
+
+-   When people assigned to the treated group don't complete the entire
+    course of treatment.
+    -   Early in the trial people may be enthusiastic.
+    -   Over time it may feel burdensome, hard to follow.
+    -   Subjects may not use entire "dose" of treatment.
+
+-   When people assigned to the control group receive/take the
+    treatment.
+    -   May already be getting the treatment (from elsewhere).
+    -   Find other means (including subjects in the treated group).
+
+---
+## 100% compliance = ITT=ATT
+- Perfect compliance means assignment perfectly predicts treatment.
+- Assuming full compliance, the causal effect of treatment assignment `\((ITT)\)`:
+.center[
+&lt;img src="L08-RCTs-Threats-2022_files/figure-html/ITT-1.png" width="100%" /&gt;
+]
+
+- Is identical to the causal effect of the treatment `\((ATT)\)`:
+.center[
+&lt;img src="L08-RCTs-Threats-2022_files/figure-html/ATT-1.png" width="100%" /&gt;
+]
+
+---
+## Why is non-compliance a problem?
+-   Non-compliance can make the treated and control groups less
+    exchangeable *with respect to the treatment*.
+
+-   It reduces the difference in **actual** treatment receipt between
+    those assigned to treatment and those assigned to control.
+
+-   In order to estimate the impact of the program, we need a contrast
+    in actual treatment received between treated and control groups.
+
+-   If enough subjects assigned to treatment don't comply, and enough
+    controls gain access to the treatment, it's impossible to assess the
+    impact of the program.
+    
+---
+## What compliance looks like:
+.center[
+&lt;img src="L08-RCTs-Threats-2022_files/figure-html/compliance1-1.png" width="80%" /&gt;
+]
+
+---
+## What compliance looks like:
+.center[
+
+]
+
+.center[
+&lt;img src="/Users/samharper/git/pphs-617/images/compliance2.png" width="80%" /&gt;
+]
+
+
+---
+## Challenges with going beyond ITT
+-   Non-compliance often leads to a dilution of the true treatment
+    effect.
+
+-   We can still estimate `\(ITT\)`, but we may really want to know about
+    the effect of the treatment, not random assignment.
+
+-   However, because compliance is likely affected by unmeasured
+    factors, we have to rely on assumptions.
+
+.center[
+&lt;img src="L08-RCTs-Threats-2022_files/figure-html/beyondITT-1.png" width="100%" /&gt;
+]
+
+---
+## Example of RCT with perfect compliance
+.left-column[
+-   What's our ITT estimate?
+
+-   With full compliance (since `\(Z=T\)`), this is also the effect of the
+    treatment.
+]
+
+-   `\(RD=\left(200/1000\right)-\left(100/1000\right)=100/1000=10\%\)`
+
+---
+## Example of RCT with perfect compliance
+
+.pull-right[  
+                              |     `\(Y=1\)`   |   `\(Y=0\)` |  `\(Y=1\)`  | `\(Y=0\)`  
+  --------------------------- | ---------| ---------| ------- |------
+  No. clusters                |   10    |    10     |        |
+  Good HIV knowledge? (Y/N)   |  1356   |    908    |        |
+  Population                  |  2076   |   2024    |        |
+  Proportion                  |  65.6%  |   45.0%   | 20.6%   |1.46
+] 
+
+
+---
+## Example of RCT with imperfect compliance
+
+-   Now imagine 50% assigned to treatment did not comply.
+
+-   [Assume]{style="color: red"} their rates are similar to controls.
+
+---
+## More non-compliance
+
+-   Generally, this only worsens if individuals from the control group
+    get access to the treatment (and the treatment works).
+
+-   Imagine that another 25% of our controls get access to the
+    treatment:
+
+---
+## What to do if we actually want the effect of the treatment
+
+-   What if you really want the effect of the treatment
+    `\(\left(T\rightarrow Y\right)\)`, not randomization
+    `\(\left(Z\rightarrow Y\right)\)`?
+
+-   Calculate Wald estimate (effect on treated).
+
+-   Estimated as `\(ITT\)` effect divided by difference in take up rates in
+    treated vs. controls:[^2]
+
+`$$ATT=\dfrac{ITT}{P(T=1|Z=1)-P(T=1|Z=0)}$$`
+
+-   Important assumptions:
+
+    -   Entire effect due to "compliers" in the treated group.
+
+    -   No "defiers" (people who do opposite of assignment).
+
+    -   More on this when we cover IV estimation.
+
+---
+## Wald estimate for our example
+
+-   Our first example, (50% non-compliance among treated):
+
+`$$ATT=\dfrac{5\%}{0.50-0.00}=10\%$$`
+
+-   Our second example, (50% non-compliance among treated, 25%
+    untreated):
+
+`$$ATT=\dfrac{2.5\%}{0.50-0.25}=10\%$$`
+
+-   In both cases we recover the "true" `\(ATT\)`, but depends on our
+    assumptions about the non-compliers.
+
+-   Ask yourself: Is "random" compliance credible?
+
+---
+## High rates of non-compliance
+
+-   In many cases we are conducting an evaluation in order to find out
+    something about the effect of the treatment.
+
+-   Very high rates of non-compliance may make can make it difficult to
+    say anything precise about the actual impact of the treatment on the
+    treated (note the denominator for `\(ATT\)`).
+
+-   Implications for power calculations.
+
+-   Example: PLCO (Prostate, Lung, Colorectal and Ovarian) study:
+
+    -   Tested impact of screening on cancer mortality.
+
+    -   Investigators expected 90% compliance among treated and 20% of
+        controls to get screening.
+
+    -   Actual values were 86% and 52%.
+
+    -   Means an effect 2x as large needed to reject the null.
+
+---
+## Strategies to limit non-compliance in impact evaluations
+
+-   Reduce barriers to take up of the program.
+
+    -   Consider how difficult it may be for participants to access
+        program.
+
+-   Create incentives to take up the program.
+
+    -   Even small incentives/gifts can make a difference.
+
+    -   Too large, however, and risk altering outcomes.
+
+-   Simplify the program delivery.
+
+    -   Staff training of intervention delivery.
+
+    -   Try to reduce number of decisions made by implementers.
+
+-   Include a "basic" version of the program, if possible.
+
+    -   At least something for everyone may reduce treatment seeking by
+        those assigned to control.
+
+---
+## Trying to measure compliance
+
+-   Documenting take up of the treatment:
+
+    -   Administrative records and monitoring data.
+
+    -   Survey participants.
+
+    -   Is there anywhere else that individuals could get the treatment?
+
+    -   Non-survey techniques.
+
+-   Try to identify "defiers":
+
+    -   Individuals that might react perversely if offered or encouraged
+        to take up a program.
+
+    -   Could be done during baseline survey.
+
+    -   Measuring personality characteristics, attitudes or knowledge
+        about the treatment and outcomes.
+
+    -   Example in Glennerster [@Glennerster:qf] of measuring girls'
+        expectations about the impact of staying in school prior to
+        random assignment.
+        
+---
+class: left, bottom
+
+
+.left[
+## .black[**II. ATTRITION**]
+## .white[**space**]
+]
+
+---
+## What do we mean by "attrition"?
+
+Definition of attrition
+
+Attrition occurs when outcomes cannot be measured for some study
+participants.
+
+-   This is essentially a missing data problem.
+
+-   Can lead to biased estimates of the treatment effect.
+
+-   Even for ITT estimate.
+
+-   Losses could be related to a patient's response to the treatment.
+
+-   Compounded if the reasons and/or frequency of dropout differs
+    between the treatment groups.
+
+---
+## Attrition creates selection bias
+
+-   Attrition can create selection bias, even if compliance is 100%.
+
+-   Results from "conditioning" on observed data (we can only analyze
+    non-missing data).
+
+-   Can create an association between treatment assignment and outcome,
+    even if there is no effect of the program:
+    
+.center[
+&lt;img src="L08-RCTs-Threats-2022_files/figure-html/attrition1-1.png" width="80%" /&gt;
+]
+
+---
+## Attrition creates selection bias
+
+-   Attrition can create selection bias, even if compliance is 100%.
+
+-   Results from "conditioning" on observed data (we can only analyze
+    non-missing data).
+
+-   Can create an association between treatment assignment and outcome,
+    even if there is no effect of the program:
+    
+.center[
+&lt;img src="L08-RCTs-Threats-2022_files/figure-html/attrition2-1.png" width="80%" /&gt;
+]
+
+---
+## How does attrition data create bias?
+
+-   Imagine a small program (n=20) to change age of smoking initiation
+    ($y$).
+
+-   Both treatment and control groups contain 2 types of people, with
+    different potential outcomes:
+
+    -   very serious students , and
+
+    -   apathetic students .
+
+-   We are worried about attrition/loss-to-follow up.
+
+-   It may be that the receiving the treatment delays initiation among
+    the apathetic, but being assigned to the comparison group makes them
+    less likely to continue in the study (or stay in school).
+
+-   At the end of follow-up, we only look at those still enrolled.
+
+-   Not a fair comparison!
+
+---
+## How does attrition create bias?
+
+-   True effect of the treatment increases initiation age by 2.5 years,
+    but because of missing data we estimate that the treatment reduces
+    it by 0.8 years.
+
+Treated group (everyone is observed):
+.center[
+`$$\begin{array}{c}
+\textrm{true average}\\
+\bar{y}=17.5
+\end{array}\begin{cases}
+\underset{20}{\frownie}\:\underset{20}{\frownie}\:\underset{20}{\frownie}\:\underset{20}{\frownie}\:\underset{20}{\frownie}\\
+\underset{15}{\smiley}\:\underset{15}{\smiley}\:\underset{15}{\smiley}\:\underset{15}{\smiley}\:\underset{15}{\smiley}
+\end{cases}$$`
+]
+
+Comparison group (apathetic students are missing):
+
+`$$\begin{array}{c}
+\textrm{true average}\\
+\bar{y}=15.0
+\end{array}\begin{cases}
+\begin{array}{c}
+\textrm{observed average}\\
+\bar{y}=18.3
+\end{array}\begin{cases}
+\underset{20}{\frownie}\:\underset{20}{\frownie}\:\underset{20}{\frownie}\:\underset{20}{\frownie}\:\underset{20}{\frownie}\\
+\underset{10}{\smiley}
+\end{cases}\\
+ &amp; \underset{10}{\blacksmiley}\:\underset{10}{\blacksmiley}\:\underset{10}{\blacksmiley}\:\underset{10}{\blacksmiley}
+\end{cases}$$`
+
+---
+## Test
+
+
+
+---
+## Statistical inference based on quasi-likelihood
+
+- Alternatively, we can use quasi-likelihood approaches for rates and proportions.
+
+- Easy to implement and can directly handle binomial and Poisson response models.
+
+- For binomial outcomes:
+  - Can use binomial regression to estimate `\(RD\)` `\((\beta)\)` or `\(RR\)` `\((e^{\beta})\)`.
+  
+  - If needed, can use logistic model and marginal predictions/effects to get `\(RD\)` or `\(RR\)`.
+
+- For rates:
+  - Use Poisson with person-time as the offset to estimate rate difference and rate ratio.
+
+---
+## Example: Adolescent sexual health intervention
+.footnote[See &lt;a name=cite-Ross2007aa&gt;&lt;/a&gt;[Ross, Changalucha, Obasi, Todd, Plummer, Cleophas-Mazige, Anemona, Everett, Weiss, Mabey, Grosskurth, and Hayes (2007)](https://doi.org/10.1097/QAD.0b013e3282ed3cf5)]
+
+.pull-left[
+- CRT of a school-based sexual health program in Tanzania 
+  - 20 rural communities were grouped into three strata expected to have high, medium or low risk of HIV and other STIs.
+  
+  - 50% in each stratum received intervention.
+  - A cohort of students aged 14+ followed up for 3 years to measure effects on knowledge, attitudes, reported sexual behaviour.
+]
+
+.pull-right[
+                              | Treated |  Control  |  RD     | RR
+  --------------------------- | ---------| ---------| ------- |------
+  No. clusters                |   10    |    10     |        |
+  Good HIV knowledge? (Y/N)   |  1356   |    908    |        |
+  Population                  |  2076   |   2024    |        |
+  Proportion                  |  65.6%  |   45.0%   | 20.6%   |1.46
+]
+
+---
+## Create cluster-level summaries
+.pull-left[
+Individual-level data (n=4100):
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; community &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; arm &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; know &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; id &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+- Variable `know` is binary.
+]
+
+.pull-right[
+Cluster-level data (n=20):
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; community &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; arm &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; knows &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; pop &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; prop &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 101 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 226 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.45 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 119 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 169 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.70 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 139 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 219 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.63 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 102 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 175 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.58 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 164 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 204 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.80 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 87 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 194 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.45 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+- Variable `prop` is a proportion (knows / pop).
+]
+
+---
+## Unpaired t-test of cluster-level outcomes
+.left-column[
+- Simple plot of each cluster mean and average (+/-SE) by treatment arm.
+]
+
+.right-column[
+.center[
+![](L08-RCTs-Threats-2022_files/figure-html/plot1-1.png)&lt;!-- --&gt;
+]]
+
+---
+## Unpaired t-test of cluster-level outcomes
+.footnote[Stata calculates the RD and 95% CI for the un-paired t-test using the `ttest prop, by(arm)` command.]
+
+.pull-left[
+- Cluster-level rates can be considered as two independent random
+samples.
+
+- In R it's simple to use the `t.test()` function to test whether means differ between arms
+]
+
+.pull-right[
+
+```r
+t.test(prop ~ trt, data=dc)
+```
+
+```
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  prop by trt
+## t = -5.065, df = 18, p-value = 8.068e-05
+## alternative hypothesis: true difference in means between group Control and group Treated is not equal to 0
+## 95 percent confidence interval:
+##  -0.2915805 -0.1206072
+## sample estimates:
+## mean in group Control mean in group Treated 
+##             0.4501352             0.6562291
+```
+]
+
+---
+## Risk ratio using Poisson on clusters
+- Poisson regression with population as offset gives the risk ratio.
+
+- Variance of RR is underestimated since between-cluster variablility (also called overdispersion) is not accounted for.
+
+- We can multiply the SE by a scale parameter (Pearson's `\(\chi^{2}\)`=df ) to
+account for overdispersion or use 'quasipoisson' family:
+
+`glm(knows ~ arm, offset=log(pop), data=dc, family="quasipoisson")`
+&lt;table class="table" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Parameter &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Estimate &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; SE &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; t-Stat &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; p-value &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; 95% LL &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; 95% UL &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.8 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.06 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -13.47 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &amp;lt; 0.001 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.92 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.69 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; arm &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.38 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.08 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 4.88 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &amp;lt; 0.001 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.23 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.53 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+- Poisson coefficient `\((\beta)\)` = 0.38, so `\(exp(\beta)\)`=1.46, and we say the proportion with good HIV knowledge is 46% higher for communities randomized to treatment.
+
+---
+## Translating back to the absolute scale
+.footnote[See the `margins` package in R and similar command in Stata]
+
+.pull-left[
+- Under our Poisson model, we can generate predicted counterfactual estimates for the whole population under treatment or under control.
+
+- These are **marginal** risks
+
+Group  | Risk | 95% CI  
+-------| ----------| -----------------  
+Control |      0.45 | [0.40, 0.50]  
+Treated |      0.65 | [0.59, 0.72] 
+Difference | 0.20 | [0.12, 0.29]
+
+]
+
+.pull-right[
+![](L08-RCTs-Threats-2022_files/figure-html/mp-1.png)&lt;!-- --&gt;
+]
+
+---
+## CRTs: analysis using individual-level data
+
+-  For small numbers of clusters, most robust analysis is to use cluster-level summaries.
+
+-  For larger clusters (e.g, &gt;15 *clusters* per treatment arm), using individual-level data may increase efficiency.
+
+- Also possible to evaluate sub-group effects, allow for effect measure modification.
+
+- Need to account statistically for clustering of individuals:
+  - If not, standard errors will be underestimated. 
+  
+  - Risk of inferring precise treatment effect when true evidence is to the contrary.  
+  
+
+---
+.footnote[&lt;a name=cite-Merlo2005aa&gt;&lt;/a&gt;[Merlo, Chaix, Yang, Lynch, and Rastam (2005)](https://doi.org/10.1136/jech.2004.023473)]
+
+.left-column[
+Sources of variation in cluster RCTs
+]
+
+.right.column[
+.center[
+&lt;img src="/Users/samharper/git/pphs-617/images/merlo-fig.png" width="80%" /&gt;
+]]
+
+---
+## Simple random effects model
+- General form of random effects (RE) model:
+
+ `$$y_{ij}=\alpha+\left(u_{j}+e_{ij}\right)$$`
+
+- `\(u_{j}\)` is a cluster-level random effect; `\(e_{ij}\)` is an individual-level error term. 
+
+- `\(\left(u_{j}+e_{ij}\right)\)` is a compound error term that accounts for between- and within-cluster variation.
+
+- No covariates (or treatment) so this is basically a variance decomposition model.
+
+- Can tell us how much of the overall variance is between clusters (ICC).
+
+---
+## Implementation of RE model
+- In R you can use the `lme4` package for linear and non-linear random effects models, e.g.:
+
+`glmer(know ~ (1 | community), family = "poisson", data = d)`
+
+which gives the following output for the "fixed" part of the model:
+
+&lt;table class="table" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Effect &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Parameter &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Estimate &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; SE &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; t-Stat &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; p-value &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; 95% LL &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; 95% UL &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; fixed &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.62 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.06 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -11.08 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &amp;lt; 0.001 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.73 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.51 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+- Note that the intercept here is the "grand mean" proportion `know` for the whole population `\((exp^{-0.62}=54\%)\)`. 
+
+- Not a simple mean, as the RE model "shrinks" estimates from smaller clusters toward the overall mean.
+
+---
+## Variance partitioning
+
+- Multi-level models also provide estimates of variance parameters, i.e., how much variation is between clusters.
+
+- The "random" part of the model summary also provides an estimate of the cluster-level variance:
+
+Groups |   Name    |    Variance | Std.Dev.
+-------|-----------|-------------|--------
+community | (Intercept) | 0.05289  |  0.23 
+
+- You can use the estimated variance to calculate the ICC. 
+
+- For a binary outcome, this is calculated as `\(\sigma^2_{B} / (\sigma^2_{B} + \pi^2/3)\)`, which in this case is `\(0.05 / (0.05 + \pi^2/3) = 0.016\)`
+- We would say that 1.6% of the total variation in HIV knowledge is between communities.
+
+---
+# How to deal with clustering
+- Use OLS or GLM models with clustered standard errors.
+
+  - In Stata specified using the `vce(cluster clustervarname)` option.
+  
+  - In R you can use the `clubsandwich` or `sandwich` packages (or others, Google is your friend).
+
+- Use mixed/hierarchical models:
+  1. Random effects (RE) models (cluster-specific).
+  
+  2. Generalized estimating equations (GEE) (marginal).
+  - Note that 1 and 2 have different interpretations.
+  
+
+---
+## Random effects models for treatment effect
+- General form of random effects model for treatment (without any additional baseline covariates):
+
+`$$y_{ij}=\alpha+\beta_{j}Z_{j}+\left(u_{j}+e_{ij}\right)$$`
+
+- `\(\beta_{j}\)` captures the effect of being in the treated `\(\left(Z=1\right)\)` vs. control `\((Z=0)\)` group.
+
+- `\(u_{j}\)` is a cluster-level random effect; `\(e_{ij}\)` is an individual-level error term. 
+
+- `\(\left(u_{j}+e_{ij}\right)\)` is a compound error term that accounts for between- and within-cluster variation.
+
+---
+## Adding the treatment to our model
+- Let's add the treatment arm variable to our model.
+
+`glmer(know ~ arm + (1 | community), family = "poisson", data = d)`
+
+which gives the following output for the "fixed" part of the model:
+
+&lt;table class="table" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Effect &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Parameter &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Estimate &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; SE &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; t-Stat &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; p-value &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; 95% LL &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; 95% UL &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; fixed &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.81 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.05 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -15.3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &amp;lt; 0.001 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.91 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.71 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; fixed &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; arm &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.38 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.07 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 5.26 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &amp;lt; 0.001 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.24 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.52 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+- Note that our coefficient on `arm` is `\(\beta=0.38\)`, exactly what we estimated using the cluster-level summaries, corresponding to an `\(RR\)` of `\(e^{\beta}=1.46\)`.
+
+---
+# Model based estimates
+.pull-left[
+- Important to remember that clustering creates a need to account for non-independence among observations within clusters.
+
+- Ignoring this will lead to *underestimates* of random error.
+
+- Confidence intervals will be too narrow.
+]
+
+.pull-right[
+- Compare the SE on `arm` from a naive model that ignores clustering to a model that uses either cluster robust SEs or our RE model:
+
+Clustering  | `\(\beta\)` | SE `\((\beta)\)`
+-------| ----------| -----------------  
+Ignored |      0.38 | 0.043
+Clustered SEs |      0.38 |0.076
+RE model | 0.38| 0.072
+]
+
+---
+# Adjustment for covariates
+- General form of random effects model (with covariates):
+
+`$$y_{ij}=\alpha+\beta_{j}Z_{j}+\sum_{k=1}^{K}\gamma_{k}C_{ijk}+\left(u_{j}+e_{ij}\right)$$`
+
+- Now our model includes parameters for each of `\(C_{k}\)` continuous or categorical covariates.
+
+- Interpretation is no different than for any other multivariable model.
+
+- As noted before, covariates should be specified in advance.
+
+---
+## Adding covariates to our example
+.pull-left[
+- Let's add covariates for ethnic group and stratum to our model.
+
+- Small impact on the point estimate for `arm`, and small reductions in the SE (greater precision).
+
+- Not surprising this doesn't affect `\(\beta_{arm}\)` since groups are exchangeable at baseline.
+]
+
+.pull-right[
+
+  | `\(\beta\)` | SE `\((\beta)\)`  |  | `\(\beta\)`  | SE `\((\beta)\)`  
+-------| ----------| -----------------  
+Treated arm     | 0.38 | 0.072 | | 0.37  | 0.064
+**Ethnic group**|      |       | |       | 
+Sukuma      |      |       | | -0.14 | 0.05
+**Stratum**     |      |       | |       |
+stratum 2       |      |       | |  0.03 | 0.08   
+stratum 3        |      |       | |  0.05 | 0.08
+]
+
+---
+class: left, bottom
+
+
+.left[
+## .black[**III. OTHER ISSUES**]
+## .white[**space**]
+]
+
+---
+## Multiple testing: What's the problem?
+- Investigators often specify a small set of measures to serve as the primary outcomes, with another (often larger) set listed as secondary.
+
+- What is the problem?
+- Type I error typically set at a = 0.05.
+
+- If many hypotheses are tested, the .red[“combined” Type 1 error] rate could be considerably larger.
+- E.g., if the null is actually true, the chances of at least 1 spurious finding are:
+  - 64% percent if 20 tests are conducted;
+  
+  - 92% percent for 50 tests.
+
+---
+## Multiple testing: What's should you do?
+.pull-left[
+- What should you do about multiple testing?
+
+- Best way is to avoid it: be specific and concise in defining outcomes!
+
+- May not be entirely feasible given the substantial up-front investment.
+
+- Potentially too conservative?
+
+]
+
+.pull-right[
+### CONSORT 2010: 
+&gt;having several primary outcomes, however, incurs the problems of interpretation associated with multiplicity of analyses...and is not recommended.
+]
+
+
+---
+# Multiple testing: What's should you do?
+.left-column[
+&lt;img src="L08-RCTs-Threats-2022_files/figure-html/unnamed-chunk-4-1.png" width="100%" height="100%" /&gt;
+]
+.right-column[
+- Others provide somewhat more guidance &lt;a name=cite-Schochet2008gf&gt;&lt;/a&gt;[Schochet (2008)](http://ies.ed.gov/ncee/pdf/20084018.pdf).
+
+  - specify primary, secondary, and exploratory analyses in your protocol.
+  
+  - specify subgroup analyses in advance.
+  - conducting hypothesis tests on (pre-specified) composite outcomes.
+
+- Applying multiplicity correction procedures to composites across domains.
+]
+
+---
+# Subgroup analysis
+.pull-left[
+- Famous example in Lancet trial of aspirin vs placebo in acute
+myocardial infarction.
+
+- Aspirin was ineffective in patients born under the star signs of Libra
+and Gemini (150 deaths on aspirin vs 147 on placebo, p=0.5), but
+was beneficial in the remainder (654 deaths on aspirin vs 869 on
+placebo, p&lt;0.0001).
+
+- Do you believe it?
+]
+
+.pull-right[
+&lt;img src="/Users/samharper/git/pphs-617/images/isis-title.png" width="100%" /&gt;
+]
+
+---
+.footnote[See &lt;a name=cite-Rothwell2005kq&gt;&lt;/a&gt;[Rothwell (2005)](https://doi.org/10.1016/S0140-6736(05)17709-5) ]
+.left-column[
+- Rothwell (2005) gives several examples of subgroup analyses later demonstrated to be invalid.
+]
+
+.right-column[
+.center[
+&lt;img src="/Users/samharper/git/pphs-617/images/rothwell-t1.png" width="100%" /&gt;
+]]
+
+---
+## Subgroup analyses
+- Asks the basic question: “Are the intervention effects the same across levels of important baseline factors?”
+
+- Groups are often of substantive or policy interest.
+- However, need to consider the multiple testing problem.
+- Concerns about post-hoc “discoveries” not disclosed as post-hoc.
+
+- How to conduct subgroup analyses:
+  - Consider adjusting for multiple comparisons.
+  - Subgroups should be pre-specified.
+  - Should be assessed using interaction tests (rather than by within group estimates of the treatment effect)
+
+---
+##  Model-based estimation for subgroup analyses
+- Subgroup analyses may generally be implemented with straightforward extensions of models for average effects.
+
+- Essentially including interaction terms between treatment and subgroup of interest. 
+
+- For our random effects model, we can add subgroup `\(G\)`:
+
+`$$y_{ij}=\alpha+\beta_{j}Z_{j}+\gamma_{ij}G_{ij}+\delta_{ij}\left({\color{red}Z_{j}}*G_{ij}\right)+\left(u_{j}+e_{ij}\right)$$`
+
+- where now `\(\gamma\)` is the effect of being in group `\(G\)` when `\(Z=0\)`.
+
+- `\(\delta\)` provides an estimate of any departure from exact additivity of joint exposure to both `\(Z\)` and `\(G\)`.
+
+---
+# Attrition
+.pull-left[
+### Concerns about attrition
+- What if actually receiving the treatment improves outcomes among “healthy” subtypes, but being assigned to the comparison group makes them less likely to continue in the study?
+
+- At the end of follow-up, we only look at those still enrolled.
+
+- Not a fair comparison = bias!
+]
+
+--
+
+.pull-right[
+### What to do?
+- Determine overall rate of attrition.
+
+- Attempt to measure whether attrition was differential between treated and control groups.
+
+- Conduct sensitivity analysis for your main analysis.
+]
+
+---
+### References
+
+&lt;a name=bib-Friedman2010yu&gt;&lt;/a&gt;[Friedman, L. M. et
+al.](#cite-Friedman2010yu) (2010a). "Participant adherence". In:
+_Fundamentals of clinical trials_. Springer, pp. 297-318.
+
+&lt;a name=bib-Merlo2005aa&gt;&lt;/a&gt;[Merlo, J. et al.](#cite-Merlo2005aa)
+(2005). "A brief conceptual tutorial of multilevel analysis in social
+epidemiology: linking the statistical concept of clustering to the idea
+of contextual phenomenon". In: _J Epidemiol Community Health_ 59.6, pp.
+443-9. DOI:
+[10.1136/jech.2004.023473](https://doi.org/10.1136%2Fjech.2004.023473).
+
+&lt;a name=bib-Ross2007aa&gt;&lt;/a&gt;[Ross, D. A. et al.](#cite-Ross2007aa)
+(2007). "Biological and behavioural impact of an adolescent sexual
+health intervention in Tanzania: a community-randomized trial". In:
+_AIDS_ 21.14, pp. 1943-55. DOI:
+[10.1097/QAD.0b013e3282ed3cf5](https://doi.org/10.1097%2FQAD.0b013e3282ed3cf5).
+
+&lt;a name=bib-Rothwell2005kq&gt;&lt;/a&gt;[Rothwell, P. M.](#cite-Rothwell2005kq)
+(2005). "Treating individuals 2. Subgroup analysis in randomised
+controlled trials: importance, indications, and interpretation". In:
+_Lancet_ 365.9454, pp. 176-86. DOI:
+[10.1016/S0140-6736(05)17709-5](https://doi.org/10.1016%2FS0140-6736%2805%2917709-5).
+
+&lt;a name=bib-Schochet2008gf&gt;&lt;/a&gt;[Schochet, P. Z.](#cite-Schochet2008gf)
+(2008). _Technical Methods Report: Guidelines for Multiple Testing in
+Impact Evaluations. NCEE 2008-4018._ URL:
+[http://ies.ed.gov/ncee/pdf/20084018.pdf](http://ies.ed.gov/ncee/pdf/20084018.pdf).
+
+---
+### References (cont)
+&lt;a name=bib-Shadish2001aa&gt;&lt;/a&gt;[Shadish, W. R. et
+al.](#cite-Shadish2001aa) (2001). _Experimental and quasi-experimental
+designs for generalized causal inference_. Boston: Houghton Mifflin.
+ISBN: 0395615569.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
