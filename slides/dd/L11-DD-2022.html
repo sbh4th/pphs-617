@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title> Difference-in-Differences </title>
+    <meta charset="utf-8" />
+    <meta name="author" content="8 Feb 2022" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: middle, left, title-slide
+
+# <b> Difference-in-Differences </b>
+## <em> Impact evaluation: Effects of social policies on health </em>
+### 8 Feb 2022
+### Sam Harper &amp; Arijit Nandi
+
+---
+
+
+
+
+
+
+
+class: left, top
+
+# .black[**CONTENTS**]
+
+.left[
+## .black[**I. COMPLIANCE**]
+## .black[**II. ATTRITION**]
+## .black[**III. SPILLOVERS**]
+## .black[**IV. LIMITATIONS OF RCTs**]
+]
+
+---
+## Thinking about research design
+
+-   Approaches using natural or quasi-experiments focus on exploiting:
+
+    1.  A treatment group that experiences a **change** in the exposure
+        of interest.
+
+    2.  Comparison with an appropriate control group that does not
+        experience a change in exposure.
+
+-   Recall the potential outcomes framework. We need a substitute
+    population (treated and controls):
+
+`$$E[Y^{1}-Y^{0}]=E[Y^{1}|T=1]-E[Y^{0}|T=0]$$`
+
+-   Where should we get our counterfactual?
+
+---
+## One-group posttest design with control group
+.center[
+&lt;img src="L11-DD-2022_files/figure-html/dd1-1.png" width="75%" /&gt;
+]
+
+---
+## One-group pretest-posttest design
+.center[
+&lt;img src="L11-DD-2022_files/figure-html/dd2-1.png" width="75%" /&gt;
+
+]
+
+---
+## One-group pretest-posttest design
+
+-   Even a single pretest observation provides some improvement over the
+    posttest only design.
+
+-   Now we derive a counterfactual prediction from the same group before
+    the intervention.
+
+-   Provides weak counterfactual evidence about what would have happened
+    in the absence of the program.
+
+    -   We know that `\(Y_{t-1}\)` occurs before `\(Y_{t}\)` (correct temporal
+        ordering).
+
+    -   Could be many other reasons apart from the intervention that
+        `\(Y_{t}\neq Y_{t-1}\)`.
+
+-   Stronger evidence if the outcomes can be reliably predicted and the
+    pre-post interval is short.
+
+-   Better still to add a pretest and posttest from a control group.
+
+---
+## Adding pretests for both groups
+.center[
+&lt;img src="L11-DD-2022_files/figure-html/dd3-1.png" width="75%" /&gt;
+]
+
+---
+## How does this help?
+
+-   Pre/post in control helps resolve this by differencing out any
+    **time-invariant** characteristics of both groups.
+
+    -   Many observed factors don't change over the course of an
+        intervention (e.g., geography, parents' social class, birth
+        cohort).
+
+    -   Any time-invariant *unobserved* factors also won't change over
+        intervention period.
+
+    -   We can therefore effectively control for them.
+
+-   Measuring same units before and after a program cancels out any
+    effect of all of the characteristics that are unique to that
+    observation and that do not change over time.
+
+-   This also has the benefit of canceling out (or controlling for)
+    unobserved time-invariant characteristics.
+    
+---
+## Difference-in-Differences: Basic Idea
+
+The simplest DD setting:
+
+-   Outcomes are observed for units observed in one of two groups:
+
+    -   Treated vs. Control
+
+-   Outcomes observed in one of two time periods.
+
+    -   Before and After the intervention.
+
+-   Treated: only units in one of the two groups are exposed to a
+    treatment, in the second time period.
+
+-   Control: Never observed to be exposed to the treatment.
+
+---
+## Difference-in-Differences: Basic Idea
+
+-   The average change over time in the non-exposed (control) group is
+    subtracted from the change over time in the exposed (treatment)
+    group.
+
+--
+
+-   Double differencing removes biases in second period comparisons
+    between the treatment and control group that could result from:
+
+1.  Fixed (i.e., non time-varying) differences between those groups.
+
+2.  Comparisons over time in the treatment group that could be the
+    result of time trends unrelated to the treatment.
+    
+---
+Key Assumption: Parallel Pre-Intervention Trends
+
+-   Basic DD controls for any time invariant characteristics of both
+    treated and control groups.
+
+-   Does not control for any **time-varying** characteristics.
+
+-   If another policy/intervention occurs in the treated (or control)
+    group at the same time as the intervention, we cannot cleanly
+    identify the effect of the program.
+
+-   DD main assumption: in the absence of the intervention treated and
+    control groups would have displayed similar **trends**.
+
+-   Impossible to verify.[^1]
+
+---
+.left-column[
+### The need for a control group
+]
+
+.right-column[
+&lt;img src="/Users/samharper/git/pphs-617/images/ddfig1.png" width="150%" /&gt;
+]
+
+---
+.left-column[
+### What would have happened without the intervention?
+]
+
+.right-column[
+&lt;img src="/Users/samharper/git/pphs-617/images/ddfig2.png" width="150%" /&gt;
+]
+
+---
+.left-column[
+### What would have happened without the intervention?
+]
+
+.right-column[
+&lt;img src="/Users/samharper/git/pphs-617/images/ddfig3.png" width="150%" /&gt;
+]
+
+---
+.left-column[
+### What would have happened without the intervention?
+]
+
+.right-column[
+&lt;img src="/Users/samharper/git/pphs-617/images/ddfig4.png" width="150%" /&gt;
+]
+
+---
+.left-column[
+### What if things worsened over time?
+]
+
+.right-column[
+&lt;img src="/Users/samharper/git/pphs-617/images/ddfig5.png" width="150%" /&gt;
+]
+
+---
+.left-column[
+### What if things worsened over time?
+]
+
+.right-column[
+&lt;img src="/Users/samharper/git/pphs-617/images/ddfig6.png" width="150%" /&gt;
+]
+
+---
+.left-column[
+### More time periods are better for evaluation
+]
+
+.right-column[
+&lt;img src="/Users/samharper/git/pphs-617/images/ddfig7.png" width="150%" /&gt;
+]
+
+---
+.left-column[
+### Parallel pre-intervention trends increase "exchangeability"
+]
+
+.right-column[
+&lt;img src="/Users/samharper/git/pphs-617/images/ddfig8.png" width="150%" /&gt;
+]  
+
+---
+class: left, bottom
+
+
+.left[
+## .black[**I. BASIC IDEA**]
+## .white[**space**]
+]
+
+
+
+
+---
+### References
+
+
+```
+## You haven't cited any references in this bibliography yet.
+```
+
+NULL
+
+---
+### References (cont)
+
+```
+## You haven't cited any references in this bibliography yet.
+```
+
+NULL
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

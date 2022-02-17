@@ -1,0 +1,397 @@
+---
+title: "<b> Difference-in-Differences </b>"
+subtitle: "<em> Impact evaluation: Effects of social policies on health </em>"  
+author: "8 Feb 2022"
+institute: "Sam Harper & Arijit Nandi"
+date: "  "
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    seal: true
+    css: [xaringan-themer.css, style.css]
+    nature:
+      beforeInit: "macros.js"
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      titleSlideClass: [middle, left]
+header-includes:
+- \usepackage{tikzsymbols}
+- \usetikzlibrary{arrows,shapes,backgrounds}
+- \usepackage{wasysym}
+---
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(here)
+library(tidyverse)
+library(broom)
+library(broom.mixed)
+library(pixiedust)
+library(here)
+library(DiagrammeR)
+library(kableExtra)
+library(xaringan)
+library(leaflet)
+library(ggplot2)
+library(ggeffects)
+library(lme4)
+library(emojifont)
+library(RefManageR)
+xfun::pkg_load2(c('tikzDevice', 'magick', 'pdftools'))
+source(here("data", "helper.R"))
+BibOptions(check.entries = FALSE, bib.style = "authoryear", style = "markdown",
+           dashed = TRUE, max.names=1)
+bib <- ReadBib(here("data", "PPHS617.bib"))
+```
+
+```{r, include=FALSE}
+pdf2png = function(path) {
+  # only do the conversion for non-LaTeX output
+  if (knitr::is_latex_output()) return(path)
+  path2 = xfun::with_ext(path, "png")
+  img = magick::image_read_pdf(path)
+  magick::image_write(img, path2, format = "png")
+  path2
+}
+```
+
+```{r xaringan-themer, include=FALSE}
+library(xaringanthemer)
+style_xaringan(text_color = "#000000", header_color = "#737373", text_font_size = "24px",  text_font_family = "'Lucida Sans'", header_font_google = google_font("Source Sans Pro"), header_font_weight="lighter", title_slide_background_color =  "#ffffff", title_slide_text_color = "#000000", link_color = "#0000ee", footnote_font_size = "0.5em")
+```
+
+class: left, top
+
+# .black[**CONTENTS**]
+
+.left[
+## .black[**I. COMPLIANCE**]
+## .black[**II. ATTRITION**]
+## .black[**III. SPILLOVERS**]
+## .black[**IV. LIMITATIONS OF RCTs**]
+]
+
+---
+## Thinking about research design
+
+-   Approaches using natural or quasi-experiments focus on exploiting:
+
+    1.  A treatment group that experiences a **change** in the exposure
+        of interest.
+
+    2.  Comparison with an appropriate control group that does not
+        experience a change in exposure.
+
+-   Recall the potential outcomes framework. We need a substitute
+    population (treated and controls):
+
+$$E[Y^{1}-Y^{0}]=E[Y^{1}|T=1]-E[Y^{0}|T=0]$$
+
+-   Where should we get our counterfactual?
+
+---
+## One-group posttest design with control group
+.center[
+```{tikz dd1, echo=F, out.width="75%", cache=TRUE}
+\begin{tikzpicture}[scale=2]
+    \draw [<->,thick] (0,3) node (yaxis) [above] {$y$} |- (4,0) node (xaxis) [right] {$time$};
+	\draw[thick, color=black, dashed] (2,0) coordinate (t0_0) -- (2,3) coordinate (t0_1);
+	\coordinate (T) at (4.5,2.1);
+    \fill[red] (T) circle (1pt) node[right, color=black] {Treated};
+	\coordinate (C) at (4.5,1.8);
+    \fill[blue] (C) circle (1pt) node[right, color=black] {Control};
+	
+	\draw[thick, -> ] (2.6,2.9) coordinate (t0_0) node[right] {Intervention} -- (2.1,2.9) coordinate (t0_1);
+
+	\coordinate (o1) at (2.5,1.5);
+	\fill[blue] (o1) circle (1.5pt);
+	\coordinate (o2) at (2.5,2);
+	\fill[red] (o2) circle (1.5pt);
+	\fill[blue] (o1) circle (1.5pt) node[right] {Is this really a good substitute?};
+	
+\end{tikzpicture}
+```
+]
+
+---
+## One-group pretest-posttest design
+.center[
+```{tikz dd2, echo=F, out.width="75%", cache=TRUE}
+\begin{tikzpicture}[scale=2]
+    
+	% Draw axes
+    \draw [<->,thick] (0,3) node (yaxis) [above] {$y$} |- (4,0) node (xaxis) [right] {$time$};
+	\draw[thick, color=black, dashed] (2,0) coordinate (t0_0) -- (2,3) coordinate (t0_1);
+	
+	% Legend
+	\coordinate (T) at (4.5,2.1);
+    \fill[red] (T) circle (1pt) node[right, color=black] {Treated};
+	\coordinate (C) at (4.5,1.8);
+    \fill[blue] (C) circle (1pt) node[right, color=black] {Control};
+	
+	% Intervention line
+	\draw[thick, -> ] (2.6,2.9) coordinate (t0_0) node[right] {Intervention} -- (2.1,2.9) coordinate (t0_1);
+
+	% Data points
+	\coordinate (o1) at (1.5,1.5);
+	\fill[red] (o1) circle (1.5pt);
+	\coordinate (o2) at (2.5,2);
+	\fill[red] (o2) circle (1.5pt);
+
+	\draw[thick,color=red,-] (o1) -- (o2);
+	\coordinate (c1) at (2.5,1.5);
+	\fill[red] (c1) circle (1.5pt);
+	\draw[thick,color=red,dashed,-] (o1) -- (c1) node[right, align=left] {Counterfactual trend based \\ on extrapolation};
+	
+\end{tikzpicture}
+```
+
+]
+
+---
+## One-group pretest-posttest design
+
+-   Even a single pretest observation provides some improvement over the
+    posttest only design.
+
+-   Now we derive a counterfactual prediction from the same group before
+    the intervention.
+
+-   Provides weak counterfactual evidence about what would have happened
+    in the absence of the program.
+
+    -   We know that $Y_{t-1}$ occurs before $Y_{t}$ (correct temporal
+        ordering).
+
+    -   Could be many other reasons apart from the intervention that
+        $Y_{t}\neq Y_{t-1}$.
+
+-   Stronger evidence if the outcomes can be reliably predicted and the
+    pre-post interval is short.
+
+-   Better still to add a pretest and posttest from a control group.
+
+---
+## Adding pretests for both groups
+.center[
+```{tikz dd3, echo=F, out.width="75%", cache=TRUE}
+\begin{tikzpicture}[scale=2]
+    
+	% Draw axes
+    \draw [<->,thick] (0,3) node (yaxis) [above] {$y$} |- (4,0) node (xaxis) [right] {$time$};
+	\draw[thick, color=black, dashed] (2,0) coordinate (t0_0) -- (2,3) coordinate (t0_1);
+	
+	% Legend
+	\coordinate (T) at (4.5,2.1);
+    \fill[red] (T) circle (1pt) node[right, color=black] {Treated};
+	\coordinate (C) at (4.5,1.8);
+    \fill[blue] (C) circle (1pt) node[right, color=black] {Control};
+	
+	% Intervention line
+	\draw[thick, -> ] (2.6,2.9) coordinate (t0_0) node[right] {Intervention} -- (2.1,2.9) coordinate (t0_1);
+
+	% Data points
+	\coordinate (c0) at (1.5,1.5);
+	\fill[blue] (c0) circle (1.5pt);
+	\coordinate (t0) at (1.5,1.7);
+	\fill[red] (t0) circle (1.5pt);
+	\coordinate (c1) at (2.5,1.5);
+	\fill[blue] (c1) circle (1.5pt);
+	\coordinate (t1) at (2.5,2);
+	\fill[red] (t1) circle (1.5pt);
+
+	\draw[thick,color=blue,-] (c0) -- (c1) node[right, align=left] {Control group estimates \\ counterfactual trend};
+	\draw[thick,color=red,-] (t0) -- (t1);
+	
+\end{tikzpicture}
+```
+]
+
+---
+## How does this help?
+
+-   Pre/post in control helps resolve this by differencing out any
+    **time-invariant** characteristics of both groups.
+
+    -   Many observed factors don't change over the course of an
+        intervention (e.g., geography, parents' social class, birth
+        cohort).
+
+    -   Any time-invariant *unobserved* factors also won't change over
+        intervention period.
+
+    -   We can therefore effectively control for them.
+
+-   Measuring same units before and after a program cancels out any
+    effect of all of the characteristics that are unique to that
+    observation and that do not change over time.
+
+-   This also has the benefit of canceling out (or controlling for)
+    unobserved time-invariant characteristics.
+    
+---
+## Difference-in-Differences: Basic Idea
+
+The simplest DD setting:
+
+-   Outcomes are observed for units observed in one of two groups:
+
+    -   Treated vs. Control
+
+-   Outcomes observed in one of two time periods.
+
+    -   Before and After the intervention.
+
+-   Treated: only units in one of the two groups are exposed to a
+    treatment, in the second time period.
+
+-   Control: Never observed to be exposed to the treatment.
+
+---
+## Difference-in-Differences: Basic Idea
+
+-   The average change over time in the non-exposed (control) group is
+    subtracted from the change over time in the exposed (treatment)
+    group.
+
+--
+
+-   Double differencing removes biases in second period comparisons
+    between the treatment and control group that could result from:
+
+1.  Fixed (i.e., non time-varying) differences between those groups.
+
+2.  Comparisons over time in the treatment group that could be the
+    result of time trends unrelated to the treatment.
+    
+---
+Key Assumption: Parallel Pre-Intervention Trends
+
+-   Basic DD controls for any time invariant characteristics of both
+    treated and control groups.
+
+-   Does not control for any **time-varying** characteristics.
+
+-   If another policy/intervention occurs in the treated (or control)
+    group at the same time as the intervention, we cannot cleanly
+    identify the effect of the program.
+
+-   DD main assumption: in the absence of the intervention treated and
+    control groups would have displayed similar **trends**.
+
+-   Impossible to verify.[^1]
+
+---
+.left-column[
+### The need for a control group
+]
+
+.right-column[
+```{r, echo=F, out.width="150%"}
+knitr::include_graphics(here("images", "ddfig1.png"))
+```
+]
+
+---
+.left-column[
+### What would have happened without the intervention?
+]
+
+.right-column[
+```{r, echo=F, out.width="150%"}
+knitr::include_graphics(here("images", "ddfig2.png"))
+```
+]
+
+---
+.left-column[
+### What would have happened without the intervention?
+]
+
+.right-column[
+```{r, echo=F, out.width="150%"}
+knitr::include_graphics(here("images", "ddfig3.png"))
+```
+]
+
+---
+.left-column[
+### What would have happened without the intervention?
+]
+
+.right-column[
+```{r, echo=F, out.width="150%"}
+knitr::include_graphics(here("images", "ddfig4.png"))
+```
+]
+
+---
+.left-column[
+### What if things worsened over time?
+]
+
+.right-column[
+```{r, echo=F, out.width="150%"}
+knitr::include_graphics(here("images", "ddfig5.png"))
+```
+]
+
+---
+.left-column[
+### What if things worsened over time?
+]
+
+.right-column[
+```{r, echo=F, out.width="150%"}
+knitr::include_graphics(here("images", "ddfig6.png"))
+```
+]
+
+---
+.left-column[
+### More time periods are better for evaluation
+]
+
+.right-column[
+```{r, echo=F, out.width="150%"}
+knitr::include_graphics(here("images", "ddfig7.png"))
+```
+]
+
+---
+.left-column[
+### Parallel pre-intervention trends increase "exchangeability"
+]
+
+.right-column[
+```{r, echo=F, out.width="150%"}
+knitr::include_graphics(here("images", "ddfig8.png"))
+```
+]  
+
+---
+class: left, bottom
+
+
+.left[
+## .black[**I. BASIC IDEA**]
+## .white[**space**]
+]
+
+
+
+
+---
+### References
+
+```{r, results='asis', echo=FALSE}
+#PrintBibliography(bib, start=1, stop=5)
+print_bib_rmd(bib, start=1, stop=5)
+```
+
+---
+### References (cont)
+```{r, results='asis', echo=FALSE, warning=FALSE}
+print_bib_rmd(bib, start=6, stop=10)
+```
