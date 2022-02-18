@@ -266,7 +266,8 @@ The simplest DD setting:
     result of time trends unrelated to the treatment.
     
 ---
-Key Assumption: Parallel Pre-Intervention Trends
+## Key Assumption: Parallel Pre-Intervention Trends
+.footnote[Impossible to verify (see `r Citet(bib, "Gertler:2011kx")`)]
 
 -   Basic DD controls for any time invariant characteristics of both
     treated and control groups.
@@ -279,8 +280,6 @@ Key Assumption: Parallel Pre-Intervention Trends
 
 -   DD main assumption: in the absence of the intervention treated and
     control groups would have displayed similar **trends**.
-
--   Impossible to verify.[^1]
 
 ---
 .left-column[
@@ -369,6 +368,120 @@ knitr::include_graphics(here("images", "ddfig7.png"))
 knitr::include_graphics(here("images", "ddfig8.png"))
 ```
 ]  
+
+---
+## A better example
+.footnote[`r Citet(bib, "McCormick:2015sf")`]
+
+```{r, echo=F, out.width="100%"}
+knitr::include_graphics(here("images", "mccormick-title.png"))
+```
+
+-   Evaluated impact of MA reform on hospital admissions.
+
+-   Compared MA to nearby states: NY, NJ, PA.
+
+-   Intervention "worked": % uninsured halved (12% to 6%) from 2004-06
+    to 2008-09.
+
+---
+
+.pull-left[
+## Evaluating pre-intervention trends
+
+- Strong visual evidence that pre-intervention trends similar in treated and control groups.
+
+- Adds credibility to assumption that post-intervention trends .red[would have been similar] in the absence of the intervention.
+]
+
+.pull-right[
+```{r, echo=F, out.width="80%"}
+knitr::include_graphics(here("images", "mccormick-fig.png"))
+```
+]
+
+---
+## Difference-in-Differences without Regression
+.pull-left[
+DD is just differences in means! Let $\mu_{it}=E(Y_{it})$
+
+- $i=0$ is control group, $i=1$ is treatment.
+
+- $t=0$ is pre-period, $t=1$ is post-period.
+
+- One 'difference' estimate of causal effect is: $\mu_{11}-\mu_{10}$ (pre-post in treated)
+
+]
+
+.pull-right[
+
+- Differences-in-Differences estimate of causal effect is: $(\mu_{11}-\mu_{10})-(\mu_{01}-\mu_{00})$
+
+Area   |     Before     |  After  | Difference |
+---------| ---------------| -------| --------------------|
+Treated  |      135     |    100    |       -35 |
+Control   |     80     |     60     |       -20 |
+T - C   |      55     |     40     |       -15  |  
+    
+]
+
+---
+## DD Regression: Two Groups, Two Periods
+.left-column[
+- Single treated and control group, two periods
+
+- $\beta_{1}$ = Treated group
+
+- $\beta_{2}$ = Post period  
+
+- $\beta_{3}$ = Product term  
+
+]
+
+.right-column[
+y | group | time | treat? | post? | treatXpost |
+--|--|--|--|--|--|
+$\vdots$  | 1 | 1 | 0 | 0 | 0 | 
+$\vdots$  | 1 | 2 | 0 | .red[1] | 0 | 
+$\vdots$  | 2 | 1 | .blue[1] | 0 | 0 | 
+$\vdots$  | 2 | 2 | .blue[1] | .red[1] | .green[1] | 
+
+
+$$Y = \color{blue}{\beta_{0} + \beta_{1}*treat} + \color{red}{\beta_{2}*after} +   \color{green}{\beta_{3}*treat*after}$$
+]
+
+---
+## Simple Two Period, Two Group Example
+Suppose Quebec passes an anti-poverty policy in 2019. How to estimate
+the impact?
+.left-column[
+
+-   $Treat=1$ if Quebec, 0 if Ontario.
+
+-   $Post=1$ if 2019, 0 if 2018.
+
+-   $Treat*Post=1$ if Quebec in 2019, 0 otherwise.
+]
+
+.right-column[
+.center[
+$Y=\beta_{0}+\beta_{1}Treat+\beta_{2}After+\beta_{3}Treat*After+\varepsilon$
+
+Province, Time | Estimate | Time Diff | DD 
+--|--|--|--|
+Ontario, 2018 | $\beta_{0}$ |   | 
+| | } $\beta_{2}$   |  
+Ontario, 2019 | $\beta_{0} + \beta_{2}$ |  |   
+| | | } $\beta_{3}$  
+Quebec, 2018 | $\beta_{0} + \beta_{1}$ |  | 
+ |  |  } $\beta_{2} + \beta_{3}$  | 
+Quebec, 2019 | $\beta_{0} + \beta_{1} + \beta_{2} + \beta_{3}$ | | 
+]]
+
+---
+## Title
+
+
 
 ---
 class: left, bottom
