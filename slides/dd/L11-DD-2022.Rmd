@@ -19,6 +19,7 @@ output:
 header-includes:
 - \usepackage{tikzsymbols}
 - \usetikzlibrary{arrows,shapes,backgrounds}
+- \usetikzlibrary{decorations.pathreplacing,calligraphy}
 - \usepackage{wasysym}
 ---
 ```{r setup, include=FALSE}
@@ -479,9 +480,66 @@ Quebec, 2019 | $\beta_{0} + \beta_{1} + \beta_{2} + \beta_{3}$ | |
 ]]
 
 ---
-## Title
+## Visual interpretation of parameters from linear DD model
 
+$$Y=\beta_{0}+\beta_{1}T+\beta_{2}A+\beta_{3}T*A+\varepsilon_{t}$$
+```{tikz ddviz, echo=F, out.width="80%", cache=TRUE, eval=FALSE}
+\begin{tikzpicture}[scale=2]
+    
+	% Draw axes
+  \draw [<->,thick] (0,3) node (yaxis) [above] {$y$} |- (4,0) node (xaxis) [right] {$time (X)$};
+	\draw[thick, color=black, dashed] (2,0) coordinate (t0_0) -- (2,3) coordinate (t0_1);
+	
+	% Legend
+	\coordinate (T) at (4.5,2.1);
+    \fill[red] (T) circle (1pt) node[right, color=black] {Treated};
+	\coordinate (C) at (4.5,1.8);
+    \fill[blue] (C) circle (1pt) node[right, color=black] {Control};
+	
+	% Intervention line
+	\draw[thick, -> ] (2.6,2.9) coordinate (t0_0) node[right] {Intervention} -- (2.1,2.9) coordinate (t0_1);
 
+	% Data points
+	\draw[thick, color=blue] (0,1.0) coordinate (c0_0) -- (4.0,1.8) coordinate (c0_1);
+	\draw[thick, color=red] (0,1.4) coordinate (t0_0) -- (2.0,1.8) coordinate (t0_1);
+	\draw[thick, color=red] (2.0,1.8) coordinate (t1_0) -- (4.0,2.5) coordinate (t1_1);
+	\draw[thick, dashed, color=red] (2.0,1.8) coordinate (t1_0) -- (4.0,2.2) coordinate (t1_1);
+	
+	\draw[thin, <- ] (0.05,0.95) coordinate (t0_0) -- (0.2,0.8) coordinate (c0_1) node[right] {$\beta_{0}$};
+	\draw [decorate,decoration={brace, amplitude=5pt},xshift=1pt,yshift=0pt] (1.0,1.6) -- (1.0,1.2) node 		[black,midway,xshift=0.5cm]  {$\beta_{1}$};
+	\draw [decorate,decoration={brace, amplitude=5pt},xshift=3pt,yshift=0pt] (4.0,1.8) -- (4.0,1.0) node 		[black,midway,xshift=0.5cm]  {$\beta_{2}$};
+	\draw [decorate,decoration={brace, amplitude=5pt},xshift=2pt,yshift=0pt] (4.0,2.5) -- (4.0,2.2) node 		[black,midway,xshift=0.5cm]  {$\beta_{3}$};
+
+\end{tikzpicture}
+```
+
+```{r, echo=F, out.width="70%"}
+knitr::include_graphics(here("images", "ddviz.png"))
+```
+
+---
+## Difference-in-differences (usually) estimates the ATT
+
+-   Our DD model is:
+    $Y=\beta_{0}+\beta_{1}Treat+\beta_{2}After+\beta_{3}Treat*After+\varepsilon$.
+
+    -   we showed that $\beta_{3}$ is the DD estimate in the linear
+        model case.
+
+-   In the (possibly counterfactual) absence of intervention, the
+    expected outcome is:
+
+    -   $E\left(Y_{i}^{0}|T=1,A=0\right)=\beta_{1}+\beta_{2}$
+
+-   In the (possibly counterfactual) presence of intervention, the
+    expected outcome is:
+
+    -   $E\left(Y_{i}^{1}|T=1,A=1\right)=\beta_{1}+\beta_{2}+\beta_{3}$
+
+-   ATT is the expected difference in $Y_{i}^{1}-Y_{i}^{0}$ for those
+    treated in the post-period:
+
+    -   $ATT=E\left(Y^{1}-Y^{0}|T=1\right)=\beta_{3}$
 
 ---
 class: left, bottom

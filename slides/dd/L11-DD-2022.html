@@ -155,7 +155,7 @@ The simplest DD setting:
     
 ---
 ## Key Assumption: Parallel Pre-Intervention Trends
-.footnote[Impossible to verify (see [Gertler, et al. (2011)](#bib-Gertler2011kx))]
+.footnote[Impossible to verify (see &lt;a name=cite-Gertler2011kx&gt;&lt;/a&gt;[Gertler, Martinez, Premand, Rawlings, and Vermeersch (2011)](#bib-Gertler2011kx))]
 
 -   Basic DD controls for any time invariant characteristics of both
     treated and control groups.
@@ -243,7 +243,7 @@ The simplest DD setting:
 
 ---
 ## A better example
-.footnote[[McCormick, et al. (2015)](#bib-McCormick2015sf)]
+.footnote[&lt;a name=cite-McCormick2015sf&gt;&lt;/a&gt;[McCormick, Hanchate, Lasser, Manze, Lin, Chu, and Kressin (2015)](#bib-McCormick2015sf)]
 
 &lt;img src="/Users/samharper/git/pphs-617/images/mccormick-title.png" width="100%" /&gt;
 
@@ -347,9 +347,36 @@ Quebec, 2019 | `\(\beta_{0} + \beta_{1} + \beta_{2} + \beta_{3}\)` | |
 ]]
 
 ---
-## Title
+## Visual interpretation of parameters from linear DD model
+
+`$$Y=\beta_{0}+\beta_{1}T+\beta_{2}A+\beta_{3}T*A+\varepsilon_{t}$$`
 
 
+&lt;img src="/Users/samharper/git/pphs-617/images/ddviz.png" width="100%" /&gt;
+
+---
+## Difference-in-differences (usually) estimates the ATT
+
+-   Our DD model is:
+    `\(Y=\beta_{0}+\beta_{1}Treat+\beta_{2}After+\beta_{3}Treat*After+\varepsilon\)`.
+
+    -   we showed that `\(\beta_{3}\)` is the DD estimate in the linear
+        model case.
+
+-   In the (possibly counterfactual) absence of intervention, the
+    expected outcome is:
+
+    -   `\(E\left(Y_{i}^{0}|T=1,A=0\right)=\beta_{1}+\beta_{2}\)`
+
+-   In the (possibly counterfactual) presence of intervention, the
+    expected outcome is:
+
+    -   `\(E\left(Y_{i}^{1}|T=1,A=1\right)=\beta_{1}+\beta_{2}+\beta_{3}\)`
+
+-   ATT is the expected difference in `\(Y_{i}^{1}-Y_{i}^{0}\)` for those
+    treated in the post-period:
+
+    -   `\(ATT=E\left(Y^{1}-Y^{0}|T=1\right)=\beta_{3}\)`
 
 ---
 class: left, bottom
@@ -376,10 +403,10 @@ al.](#cite-Gertler2011kx) (2011). _Impact evaluation in practice_.
 World Bank Publications.
 
 &lt;a name=bib-McCormick2015sf&gt;&lt;/a&gt;[McCormick, D. et
-al.](#cite-McCormick2015sf) (2015). "Effect of Massachusetts
-healthcare reform on racial and ethnic disparities in admissions to
-hospital for ambulatory care sensitive conditions: retrospective
-analysis of hospital episode statistics". In: _BMJ_ 350, p. h1480.
+al.](#cite-McCormick2015sf) (2015). "Effect of Massachusetts healthcare
+reform on racial and ethnic disparities in admissions to hospital for
+ambulatory care sensitive conditions: retrospective analysis of
+hospital episode statistics". In: _BMJ_ 350, p. h1480.
 
 ---
 ### References (cont)
