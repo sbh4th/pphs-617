@@ -22,10 +22,13 @@ header-includes:
 - \usetikzlibrary{decorations.pathreplacing,calligraphy}
 - \usepackage{wasysym}
 ---
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, echo=FALSE}
 options(htmltools.dir.version = FALSE)
 library(here)
 library(tidyverse)
+library(causaldata)
+library(modelsummary)
+library(fixest)
 library(broom)
 library(broom.mixed)
 library(pixiedust)
@@ -38,6 +41,7 @@ library(ggplot2)
 library(ggeffects)
 library(lme4)
 library(emojifont)
+library(emo)
 library(RefManageR)
 xfun::pkg_load2(c('tikzDevice', 'magick', 'pdftools'))
 source(here("data", "helper.R"))
@@ -67,16 +71,57 @@ class: left, top
 # .black[**CONTENTS**]
 
 .left[
-## .black[**I. COMPLIANCE**]
-## .black[**II. ATTRITION**]
-## .black[**III. SPILLOVERS**]
-## .black[**IV. LIMITATIONS OF RCTs**]
+## .black[**I. OVERVIEW**]
+## .black[**II. ESTIMATING DD EFFECTS**]
+## .black[**III. ROBUSTNESS CHECKS**]
+## .black[**IV. STAGGERED TREATMENTS**]
+]
+
+---
+class: left, bottom
+
+
+.left[
+## .black[**I. OVERVIEW**]
+## .white[**space**]
+]
+
+---
+class: left, bottom
+
+
+.left[
+## .black[**II. ESTIMATING DD EFFECTS**]
+## .white[**space**]
+]
+
+---
+class: left, bottom
+
+
+.left[
+## .black[**III. ROBUSTNESS CHECKS**]
+## .white[**space**]
+]
+
+---
+class: left, bottom
+
+
+.left[
+## .black[**IV. STAGGERED TREATMENTS**]
+## .white[**space**]
 ]
 
 ---
 ## Thinking about research design
 
--   Approaches using natural or quasi-experiments focus on exploiting:
+.left-column[
+# `r emo::ji("clock")` 
+]
+
+.right-column[
+-   Approaches using quasi-experiments focus on exploiting:
 
     1.  A treatment group that experiences a **change** in the exposure
         of interest.
@@ -90,6 +135,7 @@ class: left, top
 $$E[Y^{1}-Y^{0}]=E[Y^{1}|T=1]-E[Y^{0}|T=0]$$
 
 -   Where should we get our counterfactual?
+]
 
 ---
 ## One-group posttest design with control group
@@ -230,9 +276,122 @@ $$E[Y^{1}-Y^{0}]=E[Y^{1}|T=1]-E[Y^{0}|T=0]$$
 
 -   This also has the benefit of canceling out (or controlling for)
     unobserved time-invariant characteristics.
-    
+   
+---
+.left-column[
+### Classic example from epidemiology: Water and cholera
+]
+
+.right-column[
+```{r, echo=F, out.width="80%"}
+knitr::include_graphics(here("images", "snow-map.png"))
+```
+]
+
+---
+## Snow's method
+
+.pull-left[
+- Couldn't randomize.
+
+- Knew Lambeth required to move intake upstream of London *after* 1849.
+
+- SV did not move, and communities were similar in many ways.
+
+- Used SV as an 'unaffected' control community.
+
+- Did not estimate DD parameter, but idea was there.
+]
+
+.pull-right[
+```{r snow, echo=F}
+d <- data.frame(
+  r = c("Lambeth (treated)", 
+        "Southwark + Vauxhall (control)", "Group Diff (treat - control)"),
+  t0 = c("130.1", "134.9", "-4.8"),
+  t1 = c("84.9", "146.6", "-61.7"),
+  td = c("-45.2", "11.7", "56.9"))
+
+kable(d, col.names = c("Region", "Rate (1849)", 
+                       "Rate (1854)", "Post-Pre"))
+```
+]
+
+
+---
+## Why is Snow's work compelling?
+.footnote[See Snow (1855) reprinted as `r Citet(bib, "Snow:1965vj")` and also `r Citet(bib, "Freedman:1991aa")`.]
+
+.left-column[
+```{r, echo=F}
+knitr::include_graphics(here("images", "john-snow.jpg"))
+```
+]
+
+.right-column[
+
+- Evidence of pre-treatment equivalence between groups:
+
+>"In many cases a single house has a supply different from that on either side. Each company supplies both rich and poor, both large houses and small; there is no difference either in the condition or occupation of the persons receiving the water of the different companies..."
+
+
+- Treatment groups lacked knowledge of mechanisms, or intervention:
+
+>"divided into two groups without their choice, and, in most cases, without their knowledge"
+
+]
+
+---
+## Other recent examples
+.footnote[See `r Citet(bib, "Venkataramani:2017uw")` for the DACA study and `r Citet(bib, "Raifman:2020va")` for the suicide study.]
+
+.pull-left[
+Effect of US Deferred Action for Childhood Arrivals (DACA) immigration program on health outcomes.
+
+  - Compared changes in health outcomes among individuals who met key DACA eligibility criteria (based on age at immigration and at the time of policy implementation) *before and after* program implementation versus changes in outcomes for individuals who did not meet these criteria.
+]
+
+.pull-right[
+Effect of changing the legal age of handgun purchases and adolescent suicide in US
+
+  - Compared changes in suicide rates in US states that *changed* the age at which individuals could legally purchase handguns (both increases and decreases) to US states that did not change the age at which handguns could be purchased.
+]
+
+---
+## Can also evaluate impact on inequalities
+.footnote[`r Citet(bib, "McCormick:2015sf")`]
+
+```{r, echo=F, out.width="100%"}
+knitr::include_graphics(here("images", "mccormick-title.png"))
+```
+
+-   Evaluated impact of MA reform on hospital admissions.
+
+-   Compared MA to nearby states: NY, NJ, PA.
+
+-   Intervention "worked": % uninsured halved (12% to 6%) from 2004-06
+    to 2008-09.
+
+---
+
+.pull-left[
+## Evaluating pre-intervention trends
+
+- Strong visual evidence that pre-intervention trends similar in treated and control groups.
+
+- Adds credibility to assumption that post-intervention trends .red[would have been similar] in the absence of the intervention.
+]
+
+.pull-right[
+```{r, echo=F, out.width="80%"}
+knitr::include_graphics(here("images", "mccormick-fig.png"))
+```
+]
+
 ---
 ## Difference-in-Differences: Basic Idea
+
+.right-column[
 
 The simplest DD setting:
 
@@ -248,6 +407,20 @@ The simplest DD setting:
     treatment, in the second time period.
 
 -   Control: Never observed to be exposed to the treatment.
+]
+
+---
+.left-column[
+### DD Basics
+]
+
+.right-column[
+### Treated vs. Control
+#### Outcomes are observed for units observed in one of two groups
+
+### Pre- vs. Post-Intervention
+#### Outcomes observed in one of two time periods
+]
 
 ---
 ## Difference-in-Differences: Basic Idea
@@ -267,7 +440,7 @@ The simplest DD setting:
     result of time trends unrelated to the treatment.
     
 ---
-## Key Assumption: Parallel Pre-Intervention Trends
+## Key Assumption: Parallel Trends
 .footnote[Impossible to verify (see `r Citet(bib, "Gertler:2011kx")`)]
 
 -   Basic DD controls for any time invariant characteristics of both
@@ -371,37 +544,6 @@ knitr::include_graphics(here("images", "ddfig8.png"))
 ]  
 
 ---
-## A better example
-.footnote[`r Citet(bib, "McCormick:2015sf")`]
-
-```{r, echo=F, out.width="100%"}
-knitr::include_graphics(here("images", "mccormick-title.png"))
-```
-
--   Evaluated impact of MA reform on hospital admissions.
-
--   Compared MA to nearby states: NY, NJ, PA.
-
--   Intervention "worked": % uninsured halved (12% to 6%) from 2004-06
-    to 2008-09.
-
----
-
-.pull-left[
-## Evaluating pre-intervention trends
-
-- Strong visual evidence that pre-intervention trends similar in treated and control groups.
-
-- Adds credibility to assumption that post-intervention trends .red[would have been similar] in the absence of the intervention.
-]
-
-.pull-right[
-```{r, echo=F, out.width="80%"}
-knitr::include_graphics(here("images", "mccormick-fig.png"))
-```
-]
-
----
 ## Difference-in-Differences without Regression
 .pull-left[
 DD is just differences in means! Let $\mu_{it}=E(Y_{it})$
@@ -448,7 +590,7 @@ $\vdots$  | 2 | 1 | .blue[1] | 0 | 0 |
 $\vdots$  | 2 | 2 | .blue[1] | .red[1] | .green[1] | 
 
 
-$$Y = \color{blue}{\beta_{0} + \beta_{1}*treat} + \color{red}{\beta_{2}*after} +   \color{green}{\beta_{3}*treat*after}$$
+$$Y = \color{blue}{\beta_{0} + \beta_{1}*treat} + \color{red}{\beta_{2}*post} +   \color{green}{\beta_{3}*treat*post}$$
 ]
 
 ---
@@ -457,16 +599,16 @@ Suppose Quebec passes an anti-poverty policy in 2019. How to estimate
 the impact?
 .left-column[
 
--   $Treat=1$ if Quebec, 0 if Ontario.
+- $Treat=1$ if Quebec, 0 if Ontario.
 
--   $Post=1$ if 2019, 0 if 2018.
+- $Post=1$ if 2019, 0 if 2018.
 
--   $Treat*Post=1$ if Quebec in 2019, 0 otherwise.
+- $Treat*Post=1$ if Quebec in 2019, 0 otherwise.
 ]
 
 .right-column[
 .center[
-$Y=\beta_{0}+\beta_{1}Treat+\beta_{2}After+\beta_{3}Treat*After+\varepsilon$
+$Y=\beta_{0}+\beta_{1}Treat+\beta_{2}Post+\beta_{3}Treat*Post+\varepsilon$
 
 Province, Time | Estimate | Time Diff | DD 
 --|--|--|--|
@@ -480,9 +622,12 @@ Quebec, 2019 | $\beta_{0} + \beta_{1} + \beta_{2} + \beta_{3}$ | |
 ]]
 
 ---
-## Visual interpretation of parameters from linear DD model
+.left-column[
+### Visual interpretation of parameters from linear DD model
+]
 
-$$Y=\beta_{0}+\beta_{1}T+\beta_{2}A+\beta_{3}T*A+\varepsilon_{t}$$
+.right-column[
+$$Y=\beta_{0}+\beta_{1}Treat+\beta_{2}Post+\beta_{3}Treat*Post+\varepsilon_{t}$$
 ```{tikz ddviz, echo=F, out.width="80%", cache=TRUE, eval=FALSE}
 \begin{tikzpicture}[scale=2]
     
@@ -513,10 +658,38 @@ $$Y=\beta_{0}+\beta_{1}T+\beta_{2}A+\beta_{3}T*A+\varepsilon_{t}$$
 \end{tikzpicture}
 ```
 
-```{r, echo=F, out.width="70%"}
+.center[
+```{r, echo=F, out.width="100%"}
 knitr::include_graphics(here("images", "ddviz.png"))
 ```
+]
+]
 
+---
+## Wait ... isn't this just "Controlled" ITS (CITS)?
+.footnote[See the exchange between `r Citet(bib, "Benmarhnia:2019wc")` and `r Citet(bib, "Lopez-Bernal:2019vc")` for more.]
+
+.left-column[
+Remember this?
+```{r, echo=F, out.width="100%"}
+knitr::include_graphics(here("images", "its-c.png"))
+```
+]
+
+.right-column[
+### Kind of?
+
+- Both designs use untreated groups to estimate the counterfactual for the treated group.
+
+- Simple 2x2 DD study does not require any time series data.
+
+- CITS often assesses impact on step change and slope.
+
+- DD often estimates average effect in post period.
+
+- Both can incorporate longer time series and dynamic effects.
+
+]
 ---
 ## Difference-in-differences (usually) estimates the ATT
 
@@ -540,23 +713,229 @@ knitr::include_graphics(here("images", "ddviz.png"))
     treated in the post-period:
 
     -   $ATT=E\left(Y^{1}-Y^{0}|T=1\right)=\beta_{3}$
-
+    
 ---
-class: left, bottom
+## A note about scale
 
+.pull-left[
+### Absolute $(Y)$
 
-.left[
-## .black[**I. BASIC IDEA**]
-## .white[**space**]
+Area   |     Before     |  After  | Difference |
+---------| ---------------| -------| --------------------|
+Treated  |      135     |    100    |       -35 |
+Control   |     80     |     60     |       -20 |
+T - C   |      55     |     40     |       -15  |  
+    
 ]
 
+.pull-right[
+### Relative $(ln(Y))$
 
+Area   |     Before     |  After  | Difference |
+---------| ---------------| -------| --------------------|
+Treated  |      4.9     |    4.6    |       0.30 |
+Control   |     4.4     |     4.1     |       0.29 |
+T - C   |      0.52     |     0.51     |       0.01  |  
+    
+]
+
+---
+## Reformulation of the model using 'fixed effects'
+.left-column[
+Express our earlier model using 'fixed effects':
+
+- Dummy for Group
+
+- Dummy for Time
+
+- *Time-varying* policy indicator
+]
+
+.right-column[
+
+$$Y = \color{blue}{\beta_{0} + \beta_{1}*Group2} + \color{red}{\beta_{2}*Time2} +   \color{green}{\beta_{3}*policy}$$
+
+y | group | time | treat? | post? | treatXpost | Group 2 | Time 2 | policy
+--|--|--|--|--|--|
+$\vdots$  | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0
+$\vdots$  | 1 | 2 | 0 | 1 | 0 | 0 | .red[1] | 0
+$\vdots$  | 2 | 1 | 1 | 0 | 0 | .blue[1] | 0 | 0 
+$\vdots$  | 2 | 2 | 1 | 1 | 1 | .green[1] | .green[1] | .green[1]
+
+- $\color{green}{\beta_{3}}$ still estimates the 'difference-in-differences' parameter.
+]
+
+---
+.pull-left[
+## What about multiple treated groups?
+- Easy to rewrite our earlier model for multiple groups **treated at the same time**
+
+- 3 units and 3 time periods.
+- Groups 1 and 3 implement policy at .green[T2].
+
+- .blue[g2] and .blue[g3] are dummies for group 2 and 3
+- .red[t2] and .red[t3] are respective time dummies for periods 2 and 3.
+]
+
+.pull-right[
+y | group | time | policy | g2 | g3 | t2 | t3 
+--|--|--|--|--|--|
+$\vdots$  | 1 | 1 | 0 | 0 | 0 | 0 | 0 
+$\vdots$  | 1 | 2 | 1 | 1 | 0 | .red[1] | 0 
+$\vdots$  | 1 | 3 | 1 | 0 | 0 | 0 | .red[1] 
+$\vdots$  | 2 | 1 | 0 | 1 | 0 | 0 | 0
+$\vdots$  | 2 | 2 | 0 | 1 | 0 | .red[1] | 0 
+$\vdots$  | 2 | 3 | 0 | 1 | 0 | 0 | .red[1] 
+$\vdots$  | 3 | 1 | 0 | 0 | 1 | 0 | 0 
+$\vdots$  | 3 | 2 | 1 | 0 | 1 | .red[1] | 0 
+$\vdots$  | 3 | 3 | 1 | 0 | 1 | 0 | .red[1] 
+]
+
+---
+## Extending the model to multiple groups/times
+-   The regression model with group and time fixed effects would now
+    look something like this (where $\color{red}{\beta_{5}}$ is the DD estimate where policy=1):
+
+$$Y_{gt}=\beta_{0}+\beta_{1}g2+\beta_{2}g3+\beta_{3}t2+\beta_{4}t3+\color{red}{\beta_{5}}p_{gt}+\varepsilon_{st}$$
+
+- Reference categories (for interpreting $\beta_{0}$) are group 1 $(g1)$ and time 1 $(t1)$.
+
+--
+
+- More generally, you could write the basic equation with multiple
+    group $(\gamma_{g})$ and time $(\tau_{t})$ fixed effects as:
+
+$$Y_{gt}=\alpha + \gamma_{g} + \tau_{t} + \color{red}{\delta_{DD}} p_{gt}+\varepsilon_{st}$$
+where $\color{red}{\delta_{DD}}$ is the difference-in-differences estimate for groups treated at time t.
+
+---
+## Example
+.pull-left[
+- Pre-post comparison vastly overestimates the effect.
+]
+
+.pull-right[
+```{r twfe, echo=F}
+od <- causaldata::organ_donations
+
+# Treatment variable
+od <- od %>%
+     mutate(Treated = State == 'California' & 
+            Quarter %in% c('Q32011','Q42011','Q12012'),
+            Ever_Trt = State == 'California')
+
+# feols clusters by the first
+# fixed effect by default, no adjustment necessary
+clfe <- feols(Rate ~ Treated | State + Quarter,
+           data = od)
+pp <- feols(Rate ~ Treated | Quarter, data=od, cluster = "State")
+tu <- feols(Rate ~ Ever_Trt, data=od, cluster = "State")
+
+models <- list("Pre-post" = pp, "Treated vs. Not" = tu,
+               "DD" = clfe) 
+coefs <- c('TreatedTRUE' = "Policy", 'Ever_Trt' = "Treated" )
+msummary(models, coef_map = coefs,
+  statistic = c("({std.error})",
+                "[{conf.low}, {conf.high}]"),
+  gof_omit = 'DF|Deviance|R2|AIC|BIC|Log.Lik|ICC|RMSE')
+```
+]
+
+---
+## What if I need covariates?
+.footnote[See `r Citet(bib, "Caetano:2022ta")` for more details.]
+- In theory, it is easy to 'extend' our TWFE model to allow for covariates:
+
+    
+---
+## Evaluating Prior Trends
+
+
+---
+## Placebo Tests (*Pre-Intervention*)
+
+
+---
+## Dynamic Effects
+
+---
+.left-column[
+### Hypothetical dynamic treatment effect scenarios
+]
+
+.right-column[]
+
+---
+.pull-left[
+```{r, echo=F, out.width="85%"}
+knitr::include_graphics(here("images", "ytrue.png"))
+knitr::include_graphics(here("images", "ytrans.png"))
+```
+]
+
+.pull-right[
+```{r, echo=F, out.width="85%"}
+knitr::include_graphics(here("images", "ylead.png"))
+knitr::include_graphics(here("images", "ylag.png"))
+```
+]
+
+---
+.left-column[
+## What about staggered treatments?
+]
+
+.right-column[
+```{r, echo=FALSE}
+knitr::include_graphics(here("images", "nandi-fig1.png"))
+```
+]
+
+---
+### Recall the setup for DD regression with multiple treated groups
+.right-column[
+We have different units that are exposed to our intervention at different times. We often use OLS (or LPM) to fit:
+$$y_{it} = \alpha_{i} + \tau_{t} + \beta^{DD}{D_{it}} + \epsilon_{it}$$
+### where
+- $y_{it}$ is the outcome for unit $i$ at time $t$.
+- $\alpha_{i}$ are unit-specific fixed effects.
+- $\tau_{t}$ are fixed effects for each time period.
+- $D_{it}$ is a time-varying treatment indicator.
+- $\beta^{DD}$ is the difference-in-differences estimate.
+]
+
+---
+.footnote[Graph from https://andrewcbaker.netlify.app/2019/09/25/difference-in-differences-methodology/]
+
+.left-column[
+1. Early-adopters (*k*) vs. never treated (*U*)
+
+2. Later-adopters (*l*) vs. never treated (*U*).
+
+3. Early (*k*) vs. later (*l*) adopters.
+
+4. **Later (l) vs. earlier (k) adopters.**
+]
+.right-column[
+```{r, echo=F}
+knitr::include_graphics(here("images", "baker-f1.png"))
+```
+]
+
+---
+## What is the problem?
+
+---
+## What are potential solutions?
+
+---
+## Key Takeaways
 
 
 ---
 ### References
 
-```{r, results='asis', echo=FALSE}
+```{r, results='asis', echo=FALSE, warning=FALSE}
 #PrintBibliography(bib, start=1, stop=5)
 print_bib_rmd(bib, start=1, stop=5)
 ```
