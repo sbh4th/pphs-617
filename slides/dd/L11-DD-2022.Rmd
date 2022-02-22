@@ -1010,7 +1010,7 @@ knitr::include_graphics(here("images", "ytrans.png"))
 ]
 
 .pull-right[
-```{r, echo=F, out.width="75%"}
+```{r, echo=F, out.width="70%"}
 knitr::include_graphics(here("images", "ylead.png"))
 knitr::include_graphics(here("images", "ylag.png"))
 ```
