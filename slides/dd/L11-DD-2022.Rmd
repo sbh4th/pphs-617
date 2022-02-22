@@ -1299,3 +1299,11 @@ print_bib_rmd(bib, start=7, stop=11)
 ```{r, results='asis', echo=FALSE, warning=FALSE}
 print_bib_rmd(bib, start=12, stop=16)
 ```
+
+```{r embed, echo=F}
+library(xaringanExtra)
+xaringanExtra::embed_xaringan(
+  url = "https://samharper.org/pphs617/dd.html",
+  ratio = "16:9"
+)
+```
